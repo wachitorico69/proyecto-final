@@ -11,7 +11,12 @@
 </div>
 
 <div class="container py-5">
-  <div class="row g-4">
+  @if (!cargado) {
+    <div class="spin">
+    <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  } @else {
+    <div class="row g-4">
     @for (l of clasesFiltradas(); track l;) {
       <div class="col-4">
         <div class="card h-100 book-card">
@@ -27,5 +32,7 @@
     @if (clasesFiltradas().length === 0 && cargado) {
         No se encontraron resultados.
     }
-  </div>
+    </div>
+  }
+
 </div>

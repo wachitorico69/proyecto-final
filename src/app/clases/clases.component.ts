@@ -3,12 +3,13 @@ import { ClasesService } from '../servicios/clases.service';
 import { NgClass} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-clases',
-  imports: [NgClass, FormsModule, RouterModule],
+  imports: [NgClass, FormsModule, RouterModule, MatProgressSpinner],
   templateUrl: './clases.component.html',
-  styleUrl: './clases.component.css'
+  styleUrl: './clases.component.scss'
 })
 
 export class ClasesComponent {
