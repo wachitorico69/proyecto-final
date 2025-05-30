@@ -1,0 +1,143 @@
+<div class="container">
+  <h2>Clases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Clase</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for (clase of clases; track clase.telefono) {
+        <tr>
+          <td>
+            @if (editIndexC === clases.indexOf(clase)) {
+              <input [(ngModel)]="clase.clase" class="form-control" />
+            } @else {
+              {{ clase.clase }}
+            }
+          </td>
+          <td>
+            @if (editIndexC === clases.indexOf(clase)) {
+              <input [(ngModel)]="clase.fecha" class="form-control" />
+            } @else {
+              {{ clase.fecha }}
+            }
+          </td>
+          <td>
+            @if (editIndexC === clases.indexOf(clase)) {
+              <input [(ngModel)]="clase.horario" class="form-control" />
+            } @else {
+              {{ clase.horario }}
+            }
+          </td>
+          <td>
+            @if (editIndexC === clases.indexOf(clase)) {
+              <input [(ngModel)]="clase.nombre" class="form-control" />
+            } @else {
+              {{ clase.nombre }}
+            }
+          </td>
+          <td>
+            @if (editIndexC === clases.indexOf(clase)) {
+              <input [(ngModel)]="clase.telefono" class="form-control" />
+            } @else {
+              {{ clase.telefono }}
+            }
+          </td>
+          <td>
+            @if (editIndexC !== clases.indexOf(clase)) {
+              <button (click)="startEditingClass(clases.indexOf(clase))" class="btn btn-dark">Editar</button>
+            } @else {
+              <button (click)="saveClass()" class="btn btn-success">Guardar</button>
+            }
+            <button (click)="deleteClass(clases.indexOf(clase))" class="btn btn-dark">Borrar</button>
+          </td>
+        </tr>
+    } @empty {
+        <tr>
+          <td colspan="6">No hay clases registradas.</td>
+        </tr>
+    }
+    </tbody>
+  </table>
+
+  <h2>Perfiles</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Peso</th>
+        <th>Altura</th>
+        <th>Sexo</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for (perfil of perfiles; track perfil.email) {
+        <tr>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.nombre" class="form-control" />
+            } @else {
+              {{ perfil.nombre }}
+            }
+          </td>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.edad" class="form-control" />
+            } @else {
+              {{ perfil.edad }}
+            }
+          </td>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.peso" class="form-control" />
+            } @else {
+              {{ perfil.peso }}
+            }
+          </td>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.altura" class="form-control" />
+            } @else {
+              {{ perfil.altura }}
+            }
+          </td>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.sexo" class="form-control" />
+            } @else {
+              {{ perfil.sexo }}
+            }
+          </td>
+          <td>
+            @if (editIndexP === perfiles.indexOf(perfil)) {
+              <input [(ngModel)]="perfil.email" class="form-control" />
+            } @else {
+              {{ perfil.email }}
+            }
+          </td>
+          <td>
+            @if (editIndexP !== perfiles.indexOf(perfil)) {
+              <button (click)="startEditingProfile(perfiles.indexOf(perfil))" class="btn btn-dark">Editar</button>
+            } @else {
+              <button (click)="saveProfile()" class="btn btn-success">Guardar</button>
+            }
+            <button (click)="deleteProfile(perfiles.indexOf(perfil))" class="btn btn-dark">Borrar</button>
+          </td>
+        </tr>
+    } @empty {
+        <tr>
+          <td colspan="7">No hay perfiles registrados.</td>
+        </tr>
+    }
+    </tbody>
+  </table>
+</div>

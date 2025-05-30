@@ -1,0 +1,46 @@
+* {
+    font-family: "Titillium Web", sans-serif;
+}
+
+h5 {
+    margin-bottom: 20px;
+}
+
+.container {
+    margin:auto;
+    width: 30%;
+    height: 530px;
+    padding: 25px;
+    box-shadow: 7px 7px black;
+    border: 2px solid black;
+}
+.container2 {
+    margin:auto;
+    width: 30%;
+    height: 600px;
+    padding: 25px;
+    box-shadow: 7px 7px black;
+    border: 2px solid black;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.error-container {
+  min-height: 20px;
+  margin-bottom: 5px;
+}
+
+#mujer {
+    margin-left: 10px;
+}
+
+.raw {
+    text-align: center;
+}
+
+.btn {
+    width: 50%;
+}

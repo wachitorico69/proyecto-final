@@ -1,0 +1,31 @@
+<div class="jumbotron">
+    <h1 class="display-4">Conoce las clases que tenemos en Gorilla Gym</h1>
+    <p class="lead">Encuentra información acerca de las clases que tenemos en nuestro gimnasio y no dudes en ser parte de alguna de ellas.</p>
+    <hr class="my-4">
+    <p>Si estás interesado en formar parte de alguna clase, puedes registrarte aquí:</p>
+    <a class="btn btn-outline-light btn-lg" [routerLink]="['/sobreti']" role="button">Ver más</a>
+</div>
+
+<div id="buscoClase" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" placeholder="¿Qué estas buscando?" [(ngModel)]="filtroTexto">
+</div>
+
+<div class="container py-5">
+  <div class="row g-4">
+    @for (l of clasesFiltradas(); track l;) {
+      <div class="col-4">
+        <div class="card h-100 book-card">
+          <img [src] = "l.image" class="card-img-top" alt="..."/>
+          <div class="card-body" [ngClass]="l.id % 2 !== 0 ? 'oscuro' : 'claro'">
+            <h6 class="card-title"> {{ l.nombre }} </h6>
+            <p class="card-text"> {{ l.descripcion }} </p>
+          </div>
+        </div>
+      </div>
+    }
+    
+    @if (clasesFiltradas().length === 0 && cargado) {
+        No se encontraron resultados.
+    }
+  </div>
+</div>

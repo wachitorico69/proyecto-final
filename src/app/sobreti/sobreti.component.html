@@ -1,0 +1,247 @@
+<h2>¿Estás interesado en alguna de nuestras clases?</h2>
+<h5>Si alguna de las clases que tenemos disponibles es de tu agrado, no dudes en aprovechar de ellas y 
+    empieza ya mismo con el trabajo duro!</h5>
+
+<div class="container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="claseForm">
+    <label><b>Nombre</b></label>
+    <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre">
+      <div class="error-container">
+         @if (claseForm.get('nombre')?.touched && claseForm.get('nombre')?.invalid) {
+            @if (claseForm.get('nombre')?.errors?.['required']) {
+              <p class="error">Introduce un nombre</p>
+            }
+            @if (claseForm.get('nombre')?.errors?.['minlength']) {
+              <p class="error">Introduce un nombre con mínimo con 5 caracteres</p>
+            }
+          }
+      </div>
+
+    <label><b>Teléfono</b></label>
+    <input type="text" formControlName="telefono" class="form-control" placeholder="Teléfono">
+      <div class="error-container">
+         @if (claseForm.get('telefono')?.touched && claseForm.get('telefono')?.invalid) {
+            @if (claseForm.get('telefono')?.errors?.['required']) {
+              <p class="error">Introduce un telefono</p>
+            }
+            @if (claseForm.get('telefono')?.errors?.['minlength']) {
+              <p class="error">Número mínimo de 10 dígitos</p>
+            }
+          }
+      </div>
+
+    <label><b>Clase</b></label>
+    <select class="form-select" formControlName="clase">
+      <option value="" disabled>Selecciona una clase</option>
+      @for (c of clases; track c) {
+        <option [value]="c.id">{{c.nombre}}</option>
+      }
+    </select>
+      <div class="error-container">
+         @if (claseForm.get('clase')?.touched && claseForm.get('clase')?.invalid) {
+            @if (claseForm.get('clase')?.errors?.['required']) {
+              <p class="error">Selecciona una clase</p>
+            }
+          }
+      </div>
+
+    <label><b>Horario</b></label>
+    <select class="form-select" formControlName="horario">
+      <option value="" disabled>Selecciona un horario</option>
+      <option value="7">7:00 am</option>
+      <option value="9">9:00 am</option>
+      <option value="1">1:00 pm</option>
+      <option value="4">4:00 pm</option>
+      <option value="8">8:00 pm</option>
+    </select>
+      <div class="error-container">
+        @if (claseForm.get('horario')?.disabled) {
+          <p style="color: gray; font-size: 12px;">Selecciona una clase para ver los horarios</p>
+        }
+         @if (claseForm.get('horario')?.touched && claseForm.get('horario')?.invalid) {
+            @if (claseForm.get('horario')?.errors?.['required']) {
+              <p class="error">Selecciona un horario</p>
+            }
+          }
+      </div>
+    
+    <label for="start"><b>Fecha</b></label>
+    <input class="form-select" formControlName="fecha"
+    type="date"
+    />
+      <div class="error-container">
+        @if (claseForm.get('fecha')?.touched && claseForm.get('fecha')?.invalid) {
+          @if (claseForm.get('fecha')?.errors?.['required']) {
+            <p class="error">Selecciona una fecha</p>
+          }
+          @if (claseForm.get('fecha')?.errors?.['fechaInvalida']) {
+            <p class="error">No puedes elegir una fecha anterior a hoy</p>
+          }
+          @if (claseForm.get('fecha')?.errors?.['añoInvalido']) {
+            <p class="error">Solo puedes elegir una fecha del año actual</p>
+          }
+        }
+      </div>
+
+    <div class="raw">
+      <button class="btn btn-dark" [disabled]="claseForm.invalid">Registrar Clase</button>
+    </div>
+  </form>
+</div>
+
+<br><br><br>
+
+<h2>Nos gustaría saber un poco sobre ti...</h2>
+<h5>Puedes llenar el siguiente formulario si quieres recibir un email de un perfil personalizado hecho por algunos de nuestros coachs expertos!</h5>
+
+<div class="container2">
+    <form (ngSubmit)="submit(forma)" #forma="ngForm">
+        <label for="nombre"><b>Nombre</b></label>
+        <input
+            type="text"
+            #nombre="ngModel"
+            [(ngModel)] = "perfil.nombre"
+            placeholder="Nombre"
+            name="nombre"
+            minlength="5"
+            class="form-control"
+            required/>
+
+          <div class="error-container">
+            @if (nombre.invalid && (nombre.dirty || nombre.touched)) {
+              @if (nombre.errors?.['minlength']) {
+                <p class="error">Introduce un nombre con mínimo 5 caracteres</p>
+              }
+              @if (nombre.errors?.['required']) {
+                <p class="error">Introduce un nombre</p>
+              }
+            }
+          </div>
+        
+
+        <label for="email"><b>Correo electrónico</b></label>
+        <input
+            type="email"
+            #email="ngModel"
+            [(ngModel)] = "perfil.email"
+            placeholder="Correo electrónico"
+            name="email"
+            class="form-control"
+            pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+            required/>
+
+          <div class="error-container">
+            @if (email.invalid && (email.dirty || email.touched)) {
+              @if (email.errors?.['required']) {
+                <p class="error">Introduce un correo electrónico</p>
+              }
+              @if (email.errors && email.errors['pattern']) {
+                <p class="error">Introduce un correo electrónico con formato correcto (ej. arroba y .com)</p>
+              }
+            }
+          </div>
+
+        
+            <label for="edad"><b>Edad</b></label>
+            <input
+            type="number"
+            #edad="ngModel"
+            [(ngModel)] = "perfil.edad"
+            placeholder="Edad"
+            name="edad"
+            min="15"
+            class="form-control"
+            required/>
+
+          <div class="error-container">
+            @if (edad.invalid && (edad.dirty || edad.touched)) {
+              @if (edad.errors?.['required']) {
+                <p class="error">Introduce un edad</p>
+              }
+              @if (edad.errors?.['min']) {
+                <p class="error">La edad mínima es 15</p>
+              }
+            }
+          </div>
+
+            <label><b>Sexo</b></label><br>
+            <input
+            type="radio"
+            id="hombre"
+            name="sexo"
+            value="Hombre"
+            [(ngModel)]="perfil.sexo"
+            class="form-check-input"
+            #sexo="ngModel"
+            required
+            />
+            <label for="hombre" class="form-check-label">Hombre</label>
+            <input
+            type="radio"
+            id="mujer"
+            name="sexo"
+            value="Mujer"
+            [(ngModel)]="perfil.sexo"
+            class="form-check-input"
+            required
+            />
+            <label for="mujer" class="form-check-label">Mujer</label>
+
+          <div class="error-container">
+            @if (sexo.invalid && (sexo.dirty || sexo.touched)) {
+              @if (sexo.errors?.['required']) {
+                <p class="error">Selecciona un sexo</p>
+              }
+            }
+          </div>
+        
+
+            <label for="peso"><b>Peso</b></label>
+            <input
+            type="number"
+            #peso="ngModel"
+            [(ngModel)] = "perfil.peso"
+            placeholder="Peso"
+            name="peso"
+            class="form-control"
+            min="30"
+            required/>
+
+          <div class="error-container">
+            @if (peso.invalid && (peso.dirty || peso.touched)) {
+              @if (peso.errors?.['required']) {
+                <p class="error">Introduce un peso</p>
+              }
+              @if (peso.errors && peso.errors['min']) {
+                <p class="error">El peso mínimo es de 30 kg</p>
+              }
+            }
+          </div>
+
+            <label for="altura"><b>Altura</b></label>
+            <input
+            type="number"
+            #altura="ngModel"
+            [(ngModel)] = "perfil.altura"
+            placeholder="Altura (cm)"
+            name="altura"
+            class="form-control"
+            min="100"
+            required/>
+
+          <div class="error-container">
+            @if (altura.invalid && (altura.dirty || altura.touched)) {
+              @if (altura.errors?.['required']) {
+                <p class="error">Introduce una altura</p>
+              }
+              @if (altura.errors && altura.errors['min']) {
+                <p class="error">La altura mínima es de 100 cm</p>
+              }
+            }
+          </div>
+          <div class="raw">
+            <button type="submit" [disabled]="!forma.valid" class="btn btn-dark">Enviar</button>
+          </div> 
+        
+    </form>
+</div>

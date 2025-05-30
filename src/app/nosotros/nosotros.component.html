@@ -1,0 +1,46 @@
+<div class="cuerpo">
+    <h2 style="font-weight: bold;">Sobre Nosotros</h2>
+    <div class="imagenes">
+        <img [src]="image" alt="imagen de persona" class="img">
+        @if(imagen){
+            <img [src]="imagen" alt="Imagen recibida" class="img">
+        }
+    </div>
+    <p class="descripcion">Nuestro gimnasio es un espacio moderno y completo diseñado para ayudarte a alcanzar 
+        tus metas de salud y bienestar. Contamos con una amplia variedad de equipos de última generación para 
+        entrenamiento cardiovascular, fuerza y musculación, así como áreas dedicadas a clases grupales como yoga, 
+        spinning, zumba y entrenamiento funcional. Nuestro ambiente es limpio, seguro y motivador, ideal tanto 
+        para principiantes como para atletas experimentados. Además, ofrecemos asesoría personalizada con 
+        entrenadores certificados y planes de entrenamiento adaptados a tus objetivos. ¡Ven y forma parte de 
+        una comunidad que te impulsa a dar lo mejor de ti!
+    </p>
+    <hr style="border: none; height: 3px; background-color: black; margin: 20px 0;">
+    <h2 style="font-weight: bold;">Equipo de desarollo</h2>
+    <div class="contenido">
+         <app-integrante
+            [nombre]="'Richard Allen Campos Acero'"
+            [foto]="'assets/richard.jpg'"
+            [descripcion]="'Estudiante de la UAA. *ProyectManager* '"
+            (seleccionada)="onPersonaSeleccionada($event)">
+        </app-integrante>
+
+        <app-integrante
+            [nombre]="'Dario Miguel Moreno González'"
+            [foto]="'assets/Dario.jpg'"
+            [descripcion]="'Estudiante de la UAA. *Especialista en BackEnd* '"
+            (seleccionada)="onPersonaSeleccionada($event)">
+        </app-integrante>
+
+        <app-integrante
+            [nombre]="'Christopher Martínez González'"
+            [foto]="'assets/Chris.jpg'"
+            [descripcion]="'Estudiante de la UAA. *Especialista en FrontEnd* '"
+            (seleccionada)="onPersonaSeleccionada($event)">
+        </app-integrante>
+    </div>
+    @if(personaSeleccionada){
+        <h3>{{ personaSeleccionada.nombre }}</h3>
+        <img [src]="personaSeleccionada.foto" alt="Foto de {{ personaSeleccionada.nombre }}" class="foto">
+        <p>{{ personaSeleccionada.descripcion }}</p>
+    }
+</div>

@@ -1,0 +1,21 @@
+<header class="d-flex align-items-center justify-content-between p-1 text-black"  style="background-color: #ffffff;" data-bs-theme="light">
+    <div class="d-flex align-items-center">
+      <img src="gorila2.png" alt="Logo" class="logo me-2" />
+      <p class="m-0">Gorilla GYM</p>
+    </div>
+    @if(loginError==true){
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <input formControlName="username" placeholder="Usuario" class="form-control">
+        <input formControlName="password" placeholder="password" class="form-control" type="password">
+        <button type="submit" class="btn">Ingresar</button>
+      </form>
+    }@else{
+      <div style= "display: flex; align-items: center; gap: 1rem;">
+        @if(userlog){
+          <span>{{userlog}}</span>
+          <a [routerLink]="['/registros']" class="btn">Ver Registros</a>
+        }
+        <button (click)="mostrarLog()" class="btn">{{userlog ? 'Logout' : 'Login'}}</button>
+      </div>
+    }
+</header>

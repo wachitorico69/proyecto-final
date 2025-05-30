@@ -1,0 +1,46 @@
+<div class="p-4 shadow-4 rounded-3" style="background-color: hsl(0, 0%, 100%);">
+  <h1>Gorilla GYM</h1>
+
+  <mat-progress-bar mode="buffer" class="custom-bar"></mat-progress-bar>
+
+  <h4>
+      Live Your Truth
+  </h4>
+
+</div>
+
+<div class="carousel">
+    <img [src]="images[currentIndex]" alt="imagen del carrusel">
+    
+    <div class="controls">
+      <button (click)="prevImage()">‹</button>
+      <button (click)="nextImage()">›</button>
+    </div>
+</div>
+
+<div style="text-align: center;">
+  <iframe 
+      width="560" 
+      height="315" 
+      [src]="video | domseguro:'https://www.youtube.com/embed/' " 
+      frameborder="0" 
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-inpicture" 
+      allowfullscreen>
+  </iframe>
+</div>
+
+<div class="material">
+
+<mat-list class="custom-list">
+  <mat-list-item><p>MENTE</p></mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item><p>CUERPO</p></mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item><p>VOLUNTAD</p></mat-list-item>
+  <mat-divider></mat-divider>
+  <mat-list-item><p>PROGRESO</p></mat-list-item>
+</mat-list>
+
+<mat-spinner class="custom-spinner"></mat-spinner>
+</div>
+

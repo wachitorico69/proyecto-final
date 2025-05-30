@@ -1,0 +1,16 @@
+<ul class="nav justify-content-center" style="background-color: #000000;" data-bs-theme="dark"> 
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/home']">
+        <mat-icon class="custom-badge" matBadge="1" matBadgeSize="small" aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [routerLink]="['/clases']">Clases</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/sobreti']">Sobre Ti</a>
+      </li>
+    <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/nosotros']" (click)="irANosotrosConImagen2()">Nosotros</a>
+      </li>
+  </ul>

@@ -1,0 +1,81 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+.carousel img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.controls button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 2em;
+  padding: 0 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+  font-family: "Rubik Mono One", monospace;
+  color: #000000;
+}
+
+h4 {
+  margin-top: 10px;
+  text-align: center;
+  color: #000000;
+  margin-bottom: 0.5em;
+  font-family: "Rubik Mono One", monospace;
+}
+
+iframe {
+  margin-top: 3em;
+  box-shadow: 7px 7px black;
+}
+
+:host ::ng-deep .custom-spinner {
+  --mdc-circular-progress-active-indicator-color: rgb(0, 0, 0);
+}
+
+:host ::ng-deep .custom-bar {
+  --mdc-linear-progress-active-indicator-color: rgb(0, 0, 0);
+  --mdc-linear-progress-track-color: rgba(0, 0, 0, 0.1);
+}
+
+p {
+  font-family: "Rubik Mono One", monospace;
+  text-align: center;
+  font-size: large;
+}
+
+:host ::ng-deep .custom-list {
+  width: 30%;
+}
+
+.material {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}/*# sourceMappingURL=home.component.css.map */
