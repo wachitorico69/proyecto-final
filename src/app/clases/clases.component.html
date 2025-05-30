@@ -30,10 +30,11 @@
     }
     
     @if (clasesFiltradas().length === 0 && cargado && !runOut) {
-        No se encontraron resultados.
+        <p>No se encontraron resultados</p>
     } 
 
     @if (runOut) {
+        <p class="text-center">Intenta en otro momento</p>
         <div class="spin">
           <mat-spinner class="custom-spinner"></mat-spinner>
         </div> 
