@@ -29,8 +29,14 @@
       </div>
     }
     
-    @if (clasesFiltradas().length === 0 && cargado) {
+    @if (clasesFiltradas().length === 0 && cargado && !runOut) {
         No se encontraron resultados.
+    } 
+
+    @if (runOut) {
+        <div class="spin">
+          <mat-spinner class="custom-spinner"></mat-spinner>
+        </div> 
     }
     </div>
   }

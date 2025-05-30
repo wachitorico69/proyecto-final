@@ -16,6 +16,7 @@ export class ClasesComponent {
   filtroTexto: string = '';
   claseList: any[] = [];
   cargado: boolean = false;
+  runOut: boolean = false;
 
   constructor(private clasesService: ClasesService) {}
 
@@ -29,6 +30,7 @@ export class ClasesComponent {
       error: (err) => {
         console.error('Error cargando clases', err);
         this.cargado = true;
+        this.runOut = true;
       }
     });
   }
