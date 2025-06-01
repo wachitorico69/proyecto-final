@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AdminlogService } from '../shared/adminlog.service';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,22 @@ export class HeaderComponent {
       username: [''],
       password: ['']
     });
+  }
+
+  enNosotros = false;
+
+  ngOnInit() {
+    this.checkRoute(this.router.url);
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.checkRoute((event as NavigationEnd).urlAfterRedirects);
+      });
+  }
+
+  private checkRoute(url: string) {
+    this.enNosotros = url === '/nosotros/assets%252Fimg2.jpg';
   }
 
   login(): void {

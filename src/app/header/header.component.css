@@ -41,3 +41,19 @@ form {
     background-color: #262626 !important;
     color: white;
 } 
+
+.acc {
+    margin-left: 20px;
+    background-color: black;
+    border: 1px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+}
+.acc:hover {
+    background-color: rgb(42, 42, 42);
+}
+.acc img {
+    margin: auto;
+}

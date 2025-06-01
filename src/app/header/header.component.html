@@ -2,6 +2,12 @@
     <div class="d-flex align-items-center">
       <img src="gorila2.png" alt="Logo" class="logo me-2" />
       <p class="m-0">Gorilla GYM</p>
+      @if (enNosotros) {
+        <div>
+          <button class="acc"><img src="assets/acc.png"></button>
+        </div>
+      }
+
     </div>
     @if(loginError==true){
       <form [formGroup]="loginForm" (ngSubmit)="login()">
