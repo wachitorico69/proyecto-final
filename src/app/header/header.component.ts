@@ -4,6 +4,7 @@ import { AdminlogService } from '../shared/adminlog.service';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import Swal from 'sweetalert2';
 import { filter } from 'rxjs';
+import { BarraService } from '../servicios/barra.service';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +17,14 @@ export class HeaderComponent {
   loginError: boolean = false;
   userlog: string | null = null;
 
-  constructor(private fb: FormBuilder, private adminService: AdminlogService, private router: Router) {
+  constructor(private fb: FormBuilder, private adminService: AdminlogService, private router: Router, private barraService: BarraService) {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
     });
   }
 
+  //mostrar el boton de accesibilidad
   enNosotros = false;
 
   ngOnInit() {
@@ -37,6 +39,11 @@ export class HeaderComponent {
 
   private checkRoute(url: string) {
     this.enNosotros = url === '/nosotros/assets%252Fimg2.jpg';
+  }
+
+  //mostrar la barra
+  mostrarBarra() {
+    this.barraService.activarBarra();
   }
 
   login(): void {

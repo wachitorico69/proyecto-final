@@ -1,6 +1,4 @@
-* {
-    font-family: "Titillium Web", sans-serif;
-}
+
 .descripcion {
     font-size: larger;
     text-align: justify;
@@ -41,4 +39,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+}
+
+.barra {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.barra button:hover {
+    background-color: rgb(202, 205, 204);
 }

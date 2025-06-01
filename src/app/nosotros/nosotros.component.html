@@ -1,12 +1,23 @@
-<div class="cuerpo">
-    <h2 style="font-weight: bold;">Sobre Nosotros</h2>
+<div class="barra">
+    @if (showBar) {
+        <button (click)="addMessage()"><i class="fa-solid fa-play" style="color: #000000;"></i></button>
+        <button (click)="pausaResumir()"><i class="fa-solid fa-pause" style="color: #000000;"></i></button>
+        <button (click)="cancelar()"><i class="fa-solid fa-stop" style="color: #000000;"></i></button>
+        <button (click)="actContraste()"><i class="fa-solid fa-circle-half-stroke" style="color: #000000;"></i></button>
+        <button (click)="changeSize()"><i class="fa-solid fa-text-height" style="color: #000000;"></i></button>
+        <button (click)="changeFont()"><i class="fa-solid fa-font" style="color: #000000;"></i></button>
+    }@else {}
+</div>
+
+<div class="cuerpo" #textContainer [ngStyle] ="{'font-size.px': fontSize, 'font-family': fontFam, 'font-weight': weight}">
+    <h2 style="font-weight: bold;" #readable [ngStyle]="{'background-color': bcolor, 'color': color}">Sobre Nosotros</h2>
     <div class="imagenes">
         <img [src]="image" alt="imagen de persona" class="img">
         @if(imagen){
             <img [src]="imagen" alt="Imagen recibida" class="img">
         }
     </div>
-    <p class="descripcion">Nuestro gimnasio es un espacio moderno y completo diseñado para ayudarte a alcanzar 
+    <p class="descripcion" #readable [ngStyle]="{'background-color': bcolor, 'color': color}">Nuestro gimnasio es un espacio moderno y completo diseñado para ayudarte a alcanzar 
         tus metas de salud y bienestar. Contamos con una amplia variedad de equipos de última generación para 
         entrenamiento cardiovascular, fuerza y musculación, así como áreas dedicadas a clases grupales como yoga, 
         spinning, zumba y entrenamiento funcional. Nuestro ambiente es limpio, seguro y motivador, ideal tanto 
@@ -15,9 +26,9 @@
         una comunidad que te impulsa a dar lo mejor de ti!
     </p>
     <hr style="border: none; height: 3px; background-color: black; margin: 20px 0;">
-    <h2 style="font-weight: bold;">Equipo de desarollo</h2>
+    <h2 style="font-weight: bold;" #readable [ngStyle]="{'background-color': bcolor, 'color': color}">Equipo de desarollo</h2>
     <div class="contenido">
-         <app-integrante
+         <app-integrante 
             [nombre]="'Richard Allen Campos Acero'"
             [foto]="'assets/richard.jpg'"
             [descripcion]="'Estudiante de la UAA. *ProyectManager* '"
