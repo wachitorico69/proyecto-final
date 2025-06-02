@@ -38,7 +38,7 @@ export class HeaderComponent {
   }
 
   private checkRoute(url: string) {
-    this.enNosotros = url === '/nosotros/assets%252Fimg2.jpg';
+    this.enNosotros = url === '/nosotros';
   }
 
   //mostrar la barra

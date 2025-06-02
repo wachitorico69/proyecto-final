@@ -12,9 +12,4 @@ import {MatBadgeModule} from '@angular/material/badge';
 })
 export class NavbarComponent {
   constructor(private router: Router) {}
-
-  irANosotrosConImagen2() {
-    const imagen2 = 'assets/img2.jpg';
-    this.router.navigate(['/nosotros', encodeURIComponent(imagen2)]);
-  }
 }
