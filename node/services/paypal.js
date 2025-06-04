@@ -31,23 +31,23 @@ exports.createOrder = async () => {
                 {
                     item: [
                         {
-                            name: 'pene',
-                            description: 'pene',
+                            name: 'Curso Online',
+                            description: 'Curso Online',
                             quantity: 1,
                             unit_amount: {
                                 currency_code: 'MXN',
-                                value: '100'
+                                value: '500'
                             }
                         }
                     ],
 
                     amount: {
                         currency_code: 'MXN',
-                        value: '100',
+                        value: '500',
                         breakdown: {
                             item_total: {
                                 currency_code: 'MXN',
-                                value: '100'
+                                value: '500'
                             }
                         }
                     }
@@ -71,7 +71,7 @@ exports.capturePayment = async (orderId) => {
     const accessToken = await generateAccessToken()
 
     const response = await axios({
-        url: process.env.PAYPAL_BASE_URL + `/v2/checkout/orders/${orderId}/confirm-payment-source`,
+        url: process.env.PAYPAL_BASE_URL + `/v2/checkout/orders/${orderId}/capture`,
         method: 'post',
         headers: {
             'Content-Type': 'application/json',

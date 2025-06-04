@@ -4,6 +4,11 @@ const paypal = require('./services/paypal')
 
 const app = express()
 
+const cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:4200'
+}));
+
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
@@ -14,7 +19,7 @@ app.post('/pay', async(req, res) => {
     try {
         const url = await paypal.createOrder()
 
-        res.redirect(url)
+        res.json({url})
     } catch (error) {
         res.send('Error'  + error)
     }
@@ -22,16 +27,18 @@ app.post('/pay', async(req, res) => {
 
 app.get('/complete-order', async (req, res) => {
     try {
-        await paypal.capturePayment(req.query.token)
-
-        res.send('Artículo comprado con éxito')
+        const orderId = req.query.token;
+        await paypal.capturePayment(orderId);
+        res.redirect('http://localhost:4200/home');
     } catch (error) {
-        res.send('Error ' + error)
+        console.error(error.response?.data || error);
+        res.send('Error ' + error);
     }
-})
+});
+
 
 app.get('/cancel-order', (req, res) => {
-    res.redirect('/')
+    res.redirect('http://localhost:4200/clases');
 })
 
 app.listen(3000, () => console.log('Server iniciado en el puerto 3000'))

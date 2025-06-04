@@ -4,6 +4,7 @@ import { NgClass} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { PaymentService } from '../servicios/payment.service';
 
 @Component({
   selector: 'app-clases',
@@ -18,7 +19,7 @@ export class ClasesComponent {
   cargado: boolean = false;
   runOut: boolean = false;
 
-  constructor(private clasesService: ClasesService) {}
+  constructor(private clasesService: ClasesService, private paymentService: PaymentService) {}
 
   ngOnInit(): void {
     this.clasesService.getClases().subscribe({
@@ -46,6 +47,18 @@ export class ClasesComponent {
       clase.nombre.toLowerCase().includes(texto) ||
       clase.descripcion.toLowerCase().includes(texto)
     );
+  }
+
+  pagar() {
+    this.paymentService.createOrder().subscribe({
+      next: (response) => {
+        // Redirige al usuario a la URL de PayPal
+        window.location.href = response.url;
+      },
+      error: (err) => {
+        console.error('Error creando la orden', err);
+      }
+    });
   }
   
 }
