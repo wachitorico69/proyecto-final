@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { generate } = require('rxjs')
 
 async function generateAccessToken() {
     const response = await axios({
@@ -38,9 +39,45 @@ exports.createOrder = async () => {
                                 value: '100'
                             }
                         }
-                    ]
+                    ],
+
+                    amount: {
+                        currency_code: 'MXN',
+                        value: '100',
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'MXN',
+                                value: '100'
+                            }
+                        }
+                    }
                 }
-            ]
+            ],
+
+            application_context: {
+                return_url: process.env.BASE_URL + '/complete-order',
+                cancel_url: process.env.BASE_URL + '/cancel-order',
+                shipping_preference: 'NO_SHIPPING',
+                user_action: 'PAY_NOW',
+                brand_name: 'Gorilla Gym'
+            }
         })
     })
+
+    return response.data.links.find(link => link.rel === 'approve').href
+}
+
+exports.capturePayment = async (orderId) => {
+    const accessToken = await generateAccessToken()
+
+    const response = await axios({
+        url: process.env.PAYPAL_BASE_URL + `/v2/checkout/orders/${orderId}/confirm-payment-source`,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + accessToken
+        }
+    })
+
+    return response.data
 }
