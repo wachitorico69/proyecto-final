@@ -66,10 +66,18 @@
 }
 
 button {
-    margin-top: 10px;
+    margin-top: -10px;
 }
 
 .error {
     color: red;
     font-size: 16px;
+}
+.error-container {
+  min-height: 20px;
+  margin-bottom: 5px;
+}
+
+button[disabled] {
+   color: red;
 }

@@ -78,6 +78,9 @@ export class ClasesComponent {
         }
       });
 
+    } else {
+        this.pagoForm.markAllAsTouched();
+        return;
     }
     this.isSubmitting.set(false);
   }

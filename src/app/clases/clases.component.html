@@ -53,10 +53,10 @@
       <div class="error-container">
          @if (pagoForm.get('correo')?.touched && pagoForm.get('correo')?.invalid) {
             @if (pagoForm.get('correo')?.errors?.['required']) {
-              <p class="error">Introduce un correo</p>
+              <p class="error">Introduce tu correo electrónico</p>
             }
             @if (pagoForm.get('correo')?.errors?.['invalidEmail']) {
-              <p class="error">Introduce un correo válido</p>
+              <p class="error">Introduce un correo electrónico válido</p>
             }
           }
       </div>
