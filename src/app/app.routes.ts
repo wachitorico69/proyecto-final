@@ -4,6 +4,7 @@ import { NosotrosComponent } from './nosotros/nosotros.component';
 import { ClasesComponent } from './clases/clases.component';
 import { SobretiComponent } from './sobreti/sobreti.component';
 import { RegistrosComponent } from './registros/registros.component';
+import { UneteComponent } from './unete/unete.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent},
@@ -11,5 +12,6 @@ export const routes: Routes = [
     { path: 'nosotros', component: NosotrosComponent },
     { path: 'clases', component: ClasesComponent },
     { path: 'sobreti', component: SobretiComponent },
-    { path: 'registros', component: RegistrosComponent }
+    { path: 'registros', component: RegistrosComponent },
+    { path: 'unete', component: UneteComponent }
 ];

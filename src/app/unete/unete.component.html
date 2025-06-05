@@ -1,0 +1,31 @@
+<h2 class="headline-1">
+    SÉ PARTE DE UNA CULTURA.
+    <br>
+    DILE A TUS AMIGOS LO QUE ES BUENO.
+    <br>
+    ÚNETE A GORILLA GYM.
+</h2>
+
+<div class="container">
+    <form>
+        <label><b>Nombre</b></label>
+        <input class="form-control" formControlName="correo" placeholder="Introduce tu nombre completo"/>
+        <div class="error-container"></div>
+
+        <label><b>Correo electrónico</b></label>
+        <input class="form-control" formControlName="correo" placeholder="Introduce tu correo electrónico"/>
+        <div class="error-container"></div>
+
+        <label><b>Contraseña</b></label>
+        <input class="form-control" formControlName="correo" placeholder="Introduce tu contraseña"/>
+        <div class="error-container"></div>
+
+        <label><b>Confirmar contraseña</b></label>
+        <input class="form-control" formControlName="correo" placeholder="Introduce tu contraseña de nuevo"/>
+        <div class="error-container"></div>
+
+        <div class="raw">
+            <button class="btn btn-dark" [disabled]="registroForm.invalid">Registrarse</button>
+        </div>
+    </form>
+</div>
