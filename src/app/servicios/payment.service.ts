@@ -9,7 +9,7 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  createOrder() {
-    return this.http.post<{ url: string }>(`${this.backendUrl}/pay`, {});
+  createOrder(data: { correo: string }) {
+    return this.http.post<{ url: string }>(this.backendUrl+'/pay', data);
   }
 }

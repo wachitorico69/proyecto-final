@@ -68,7 +68,9 @@ export class ClasesComponent {
 
       this.isSubmitting.set(true);
 
-      this.paymentService.createOrder().subscribe({
+      const correo = this.pagoForm.get('correo')?.value;
+
+      this.paymentService.createOrder({correo}).subscribe({
         next: (response) => {
         // Redirige al usuario a la URL de PayPal
         window.location.href = response.url;

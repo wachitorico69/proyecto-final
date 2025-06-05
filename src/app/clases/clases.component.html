@@ -49,11 +49,11 @@
     <hr class="my-4">
     <p>Si prefieres hacer ejercicio desde tu hogar, no dudes en tomar nuestro curso en línea, donde nuestros entrenadores podrán enseñarte las lecciones de tu preferencia:</p>
     <form [formGroup]="pagoForm" (ngSubmit)="submit()">
-      <input class="form-control mr-sm-2" formControlName="correo" placeholder="Introduce tu email"/>
+      <input class="form-control mr-sm-2" formControlName="correo" placeholder="Introduce tu correo electrónico"/>
       <div class="error-container">
          @if (pagoForm.get('correo')?.touched && pagoForm.get('correo')?.invalid) {
             @if (pagoForm.get('correo')?.errors?.['required']) {
-              <p class="error">Introduce tu correo electrónico</p>
+              <p class="error">Introduce un correo electrónico</p>
             }
             @if (pagoForm.get('correo')?.errors?.['invalidEmail']) {
               <p class="error">Introduce un correo electrónico válido</p>
