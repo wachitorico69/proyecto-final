@@ -18,6 +18,7 @@ export class ClasesComponent {
   claseList: any[] = [];
   cargado: boolean = false;
   runOut: boolean = false;
+  pagoCargo: boolean = false;
   pagoForm: FormGroup;
   isSubmitting = signal(false);
 
@@ -65,6 +66,8 @@ export class ClasesComponent {
 
   submit() {
     if (this.pagoForm.valid) {
+
+      this.pagoCargo = true;
 
       this.isSubmitting.set(true);
 

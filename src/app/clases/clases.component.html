@@ -44,7 +44,7 @@
 </div>
 
 <div class="jumbotron2">
-    <h1 class="display-4">Gorilla Gym Course Online</h1>
+    <h1 class="display-4">Gorilla Gym Curso Online</h1>
     <p class="lead">$500.00 MXN</p>
     <hr class="my-4">
     <p>Si prefieres hacer ejercicio desde tu hogar, no dudes en tomar nuestro curso en línea, donde nuestros entrenadores podrán enseñarte las lecciones de tu preferencia:</p>
@@ -62,4 +62,9 @@
       </div>
       <button type="submit" class="btn btn-outline-light btn-lg" [disabled]="isSubmitting()">Paga con <i class="fa-brands fa-paypal"></i></button>
     </form>
+        @if (pagoCargo) {
+        <div class="spin">
+          <mat-spinner class="custom-spinner2"></mat-spinner>
+        </div> 
+    }
 </div>
