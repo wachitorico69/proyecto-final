@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ClasesService } from '../servicios/clases.service';
 import { NgClass} from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { PaymentService } from '../servicios/payment.service';
@@ -23,8 +23,16 @@ export class ClasesComponent {
 
   constructor(private clasesService: ClasesService, private paymentService: PaymentService, private fb: FormBuilder) {
     this.pagoForm = this.fb.group({
-      correo: ['', Validators.required]
+      correo: ["", [Validators.required, this.emailValidator]]
     })
+  }
+
+  public emailValidator(control: FormControl): { [key: string]: boolean } | null {
+    const emailRegexp: RegExp = /[@]/;
+    if (control.value && !emailRegexp.test(control.value)) {
+        return { invalidEmail: true };
+    }
+    return null;
   }
 
   ngOnInit(): void {

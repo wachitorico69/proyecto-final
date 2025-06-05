@@ -50,6 +50,16 @@
     <p>Si prefieres hacer ejercicio desde tu hogar, no dudes en tomar nuestro curso en línea, donde nuestros entrenadores podrán enseñarte las lecciones de tu preferencia:</p>
     <form [formGroup]="pagoForm" (ngSubmit)="submit()">
       <input class="form-control mr-sm-2" formControlName="correo" placeholder="Introduce tu email"/>
+      <div class="error-container">
+         @if (pagoForm.get('correo')?.touched && pagoForm.get('correo')?.invalid) {
+            @if (pagoForm.get('correo')?.errors?.['required']) {
+              <p class="error">Introduce un correo</p>
+            }
+            @if (pagoForm.get('correo')?.errors?.['invalidEmail']) {
+              <p class="error">Introduce un correo válido</p>
+            }
+          }
+      </div>
       <button type="submit" class="btn btn-outline-light btn-lg" [disabled]="isSubmitting()">Paga con <i class="fa-brands fa-paypal"></i></button>
     </form>
 </div>
