@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ClasesService } from '../servicios/clases.service';
 import { NgClass} from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { PaymentService } from '../servicios/payment.service';
 
 @Component({
   selector: 'app-clases',
-  imports: [NgClass, FormsModule, RouterModule, MatProgressSpinner],
+  imports: [NgClass, FormsModule, RouterModule, MatProgressSpinner, FormsModule, ReactiveFormsModule],
   templateUrl: './clases.component.html',
   styleUrl: './clases.component.scss'
 })
@@ -18,8 +18,14 @@ export class ClasesComponent {
   claseList: any[] = [];
   cargado: boolean = false;
   runOut: boolean = false;
+  pagoForm: FormGroup;
+  isSubmitting = signal(false);
 
-  constructor(private clasesService: ClasesService, private paymentService: PaymentService) {}
+  constructor(private clasesService: ClasesService, private paymentService: PaymentService, private fb: FormBuilder) {
+    this.pagoForm = this.fb.group({
+      correo: ['', Validators.required]
+    })
+  }
 
   ngOnInit(): void {
     this.clasesService.getClases().subscribe({
@@ -49,16 +55,22 @@ export class ClasesComponent {
     );
   }
 
-  pagar() {
-    this.paymentService.createOrder().subscribe({
-      next: (response) => {
+  submit() {
+    if (this.pagoForm.valid) {
+
+      this.isSubmitting.set(true);
+
+      this.paymentService.createOrder().subscribe({
+        next: (response) => {
         // Redirige al usuario a la URL de PayPal
         window.location.href = response.url;
-      },
-      error: (err) => {
-        console.error('Error creando la orden', err);
-      }
-    });
+        },
+        error: (err) => {
+          console.error('Error creando la orden', err);
+        }
+      });
+
+    }
+    this.isSubmitting.set(false);
   }
-  
 }
