@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
 import { environment } from '../../environments/environment';
+import { FirestoreService } from '../servicios/firestore.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-unete',
@@ -22,7 +24,7 @@ export class UneteComponent {
   registroForm: FormGroup;
   token: string|undefined;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService) {
     this.registroForm = this.fb.group({
       nombre: ["", [Validators.required, Validators.minLength(5)]],
       correo: ["", [Validators.required, this.emailValidator]],
@@ -94,6 +96,25 @@ export class UneteComponent {
 
       return;
     }
+
+    this.firestoreService.guardarUsuario({
+      nombre: this.registroForm.get('nombre')?.value,
+      correo: this.registroForm.get('correo')?.value,
+      password: this.registroForm.get('password')?.value
+    }).then(() => {
+      console.log('Usuario guardado con éxito');
+    }).catch((err) => {
+      console.error('Error al guardar', err);
+    });
+
+    Swal.fire({
+      title: 'Bienvenido a Gorilla Gym!',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: 'black',
+      color: 'black',
+      iconColor: 'black'
+    })
 
     this.registroForm.reset();
     this.token = undefined;

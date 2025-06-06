@@ -8,6 +8,11 @@ import { Observable } from 'rxjs';
 export class FirestoreService {
   constructor(private firestore: Firestore) {}
 
+  guardarUsuario(usuario: { nombre: string; correo: string, password: string }) {
+    const usuariosRef = collection(this.firestore, 'usuarios');
+    return addDoc(usuariosRef, usuario);
+  }
+
   getClases(): Observable<any[]> {
     const ref = collection(this.firestore, 'clases');
     return collectionData(ref, { idField: 'id' });
