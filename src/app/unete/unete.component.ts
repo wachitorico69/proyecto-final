@@ -29,18 +29,18 @@ export class UneteComponent {
   }
 
   //Validar contraseña
-public passwordValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const formGroup = control as FormGroup;
-    const password = formGroup.get('password')?.value;
-    const repeat_password = formGroup.get('passwordRepeted')?.value;
+  public passwordValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const formGroup = control as FormGroup;
+      const password = formGroup.get('password')?.value;
+      const repeat_password = formGroup.get('passwordRepeted')?.value;
 
-    if (!password || !repeat_password || password !== repeat_password) {
-      return { isValid: false };
-    }
-    return null;
-  };
-}
+      if (!password || !repeat_password || password !== repeat_password) {
+        return { isValid: false };
+      }
+      return null;
+    };
+  }
 
 
   public passwordValidator2(control: FormControl): { [key: string]: boolean } | null {
