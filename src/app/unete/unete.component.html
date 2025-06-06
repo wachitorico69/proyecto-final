@@ -62,7 +62,7 @@
         <label><b>Confirmar contraseña</b></label>
         <input class="form-control" id="passwordRepeted" type="password" formControlName="passwordRepeted" placeholder="Introduce tu contraseña de nuevo"/>
         <div class="error-container">
-            @if (registroForm.get('passwordRepeted')?.touched && registroForm.get('passwordRepeted')?.errors?.['isValid'] === false) {
+            @if (registroForm.errors?.['isValid'] === false && registroForm.get('passwordRepeted')?.touched) {
                 <p class="error">Las contraseñas no coinciden</p>
             }
         </div>
