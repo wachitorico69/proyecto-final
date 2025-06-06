@@ -1,11 +1,12 @@
 .container {
     margin: auto;
     width: 30%;
-    height: 530px;
+    height: 600px;
     padding: 25px;
     box-shadow: 7px 7px black;
     border: 2px solid black;
     font-family: "Titillium Web", sans-serif;
+    margin-bottom: 20px;
 }
 
 .headline-1 {
@@ -28,4 +29,8 @@
 
 .raw {
     text-align: center;
+}
+
+.raw2 {
+    margin-bottom: 20px;
 }

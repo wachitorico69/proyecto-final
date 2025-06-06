@@ -67,6 +67,14 @@
             }
         </div>
 
+        <div class="raw2">
+        <re-captcha id="recaptcha" name="recaptcha" #recaptcha="ngModel" [(ngModel)]="token" [ngModelOptions]="{ standalone: true }"
+        required [class.is-invalid]="recaptcha.invalid && (recaptcha.dirty || recaptcha.touched)"></re-captcha>
+        @if (!token) {
+            <p class="error">Por favor, completa el reCAPTCHA</p>
+        }
+        </div>
+
         <div class="raw">
             <button class="btn btn-dark" [disabled]="registroForm.invalid">Registrarse</button>
         </div>
