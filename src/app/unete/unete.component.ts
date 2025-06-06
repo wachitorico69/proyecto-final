@@ -1,14 +1,26 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { RECAPTCHA_SETTINGS, RecaptchaFormsModule, RecaptchaModule, RecaptchaSettings } from 'ng-recaptcha';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-unete',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RecaptchaFormsModule, RecaptchaModule, FormsModule],
+  providers: [
+  {
+    provide: RECAPTCHA_SETTINGS,
+    useValue: {
+      siteKey: environment.recaptcha.siteKey,
+    } as RecaptchaSettings,
+  },
+  ] ,
   templateUrl: './unete.component.html',
   styleUrl: './unete.component.css'
 })
+
 export class UneteComponent {
   registroForm: FormGroup;
+  token: string|undefined;
 
   constructor(private fb: FormBuilder) {
     this.registroForm = this.fb.group({
@@ -17,6 +29,8 @@ export class UneteComponent {
       password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordValidator2]],
       passwordRepeted: ["", [Validators.required]]
     }, { validators: this.passwordValidator() });
+
+    this.token = undefined;
   }
 
   //Validar correo
@@ -67,5 +81,23 @@ export class UneteComponent {
     return null;
   }
 
-  submit(){}
+  submit() {
+    if (this.registroForm.invalid || !this.token) {
+      for (const control of Object.keys(this.registroForm.controls)) {
+        this.registroForm.controls[control].markAsTouched();
+      }
+
+      // Mostrar un mensaje de error para el captcha si es necesario
+      if (!this.token) {
+        console.warn('Captcha no completado');
+      }
+
+      return;
+    }
+
+    this.registroForm.reset();
+    this.token = undefined;
+
+    console.debug(`Token [${this.token}] generated`);
+  }
 }

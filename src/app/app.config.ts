@@ -8,9 +8,11 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { initializeApp } from 'firebase/app';
 import { environment } from '../environments/environment';
 import { from } from 'rxjs';
+import { RECAPTCHA_SETTINGS, RecaptchaSettings } from 'ng-recaptcha';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideHttpClient(),
-    provideFirebaseApp(() => initializeApp(environment.firebase)), provideFirestore(() => getFirestore()),
+    provideFirebaseApp(() => initializeApp(environment.firebase)), provideFirestore(() => getFirestore())
   ]
 };
