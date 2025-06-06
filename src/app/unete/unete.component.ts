@@ -16,7 +16,7 @@ export class UneteComponent {
       correo: ["", [Validators.required, this.emailValidator]],
       password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20), this.passwordValidator2]],
       passwordRepeted: ["", [Validators.required]]
-    }, { validators: this.passwordValidator() });
+    })
   }
 
   //Validar correo
@@ -29,18 +29,19 @@ export class UneteComponent {
   }
 
   //Validar contraseña
-public passwordValidator(): ValidatorFn {
-  return (control: AbstractControl): { [key: string]: any } | null => {
-    const formGroup = control as FormGroup;
-    const password = formGroup.get('password')?.value;
-    const repeat_password = formGroup.get('passwordRepeted')?.value;
+  public passwordValidator(): ValidatorFn {
+    return () => {
 
-    if (!password || !repeat_password || password !== repeat_password) {
-      return { isValid: false };
-    }
-    return null;
-  };
-}
+      const password = this.registroForm.get('password')?.value;
+      const repeat_password = this.registroForm.get('passwordRepeted')?.value;
+
+      if(!password || !repeat_password) return { isValid: false };
+
+      if(password!==repeat_password) return { isValid: false };      
+      
+      return null;
+    };
+  }
 
 
   public passwordValidator2(control: FormControl): { [key: string]: boolean } | null {
