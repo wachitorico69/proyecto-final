@@ -13,6 +13,16 @@ export class FirestoreService {
     return addDoc(usuariosRef, usuario);
   }
 
+  guardarClase(clase: { nombre: string; telefono: string, clase: string, horario: string, fecha: string }) {
+    const clasesRef = collection(this.firestore, 'clases');
+    return addDoc(clasesRef, clase);
+  }
+
+  guardarPerfil(perfil: { nombre: string; email: string, edad: string, sexo: string, peso: string, altura: string }) {
+    const perfilesRef = collection(this.firestore, 'perfiles');
+    return addDoc(perfilesRef, perfil);
+  }
+  
   getClases(): Observable<any[]> {
     const ref = collection(this.firestore, 'clases');
     return collectionData(ref, { idField: 'id' });

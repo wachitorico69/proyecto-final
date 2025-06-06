@@ -1,6 +1,7 @@
-  import { Component } from '@angular/core';
-  import { AbstractControl, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-  import Swal from 'sweetalert2'
+import { Component } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import Swal from 'sweetalert2'
+import { FirestoreService } from '../servicios/firestore.service';
 
   interface perfilForm {
     nombre: string;
@@ -52,10 +53,18 @@
     };
 
     submit(form: NgForm) {
-      const perfilesGuardados = JSON.parse(localStorage.getItem('perfiles') || '[]');
-      perfilesGuardados.push(this.perfil);
-
-      localStorage.setItem('perfiles', JSON.stringify(perfilesGuardados));
+      this.firestoreService.guardarPerfil({
+        nombre: this.perfil.nombre,
+        email: this.perfil.email,
+        edad: this.perfil.edad,
+        sexo: this.perfil.sexo,
+        peso: this.perfil.peso,
+        altura: this.perfil.altura
+      }).then(() => {
+        console.log('Usuario guardado con éxito');
+        }).catch((err) => {
+        console.error('Error al guardar', err);
+      });
 
       Swal.fire({
         title: 'Buen trabajo!',
@@ -85,7 +94,7 @@
       { id: 'hiit', nombre: 'HIIT' }
     ];
 
-    constructor(private formBuilder: FormBuilder) {}
+    constructor(private formBuilder: FormBuilder, private firestoreService: FirestoreService) {}
 
     ngOnInit() {
       this.claseForm = this.formBuilder.group({
@@ -119,10 +128,17 @@
         return;
       }
 
-      const clasesGuardadas = JSON.parse(localStorage.getItem('clases') || '[]');
-      clasesGuardadas.push(this.claseForm.value);
-
-      localStorage.setItem('clases', JSON.stringify(clasesGuardadas));
+      this.firestoreService.guardarClase({
+        nombre: this.claseForm.get('nombre')?.value,
+        telefono: this.claseForm.get('telefono')?.value,
+        clase: this.claseForm.get('clase')?.value,
+        horario: this.claseForm.get('horario')?.value,
+        fecha: this.claseForm.get('fecha')?.value
+      }).then(() => {
+        console.log('Usuario guardado con éxito');
+        }).catch((err) => {
+        console.error('Error al guardar', err);
+      });
 
       Swal.fire({
         title: 'Clase programada!',
