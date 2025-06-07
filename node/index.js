@@ -4,6 +4,7 @@ const paypal = require('./services/paypal')
 const app = express()
 const cors = require('cors');
 const nodemailer = require('nodemailer');
+const admin = require('firebase-admin'); //QR
 let correoCompra = null;
 
 app.use(express.json());
@@ -61,8 +62,51 @@ app.get('/complete-order', async (req, res) => {
     }
 });
 
+
 app.get('/cancel-order', (req, res) => {
     res.redirect('http://localhost:4200/clases');
 })
+
+
+// Inicializa Firebase Admin con tu archivo de credenciales --QR
+admin.initializeApp({
+  credential: admin.credential.cert(require('./config/firebase-key.json'))
+});
+const db = admin.firestore(); //QR
+
+
+// Endpoint que devuelve datos de un usuario (por ejemplo) para el QR
+app.get('/api/usuario/:id', async (req, res) => {
+  try {
+    const doc = await db.collection('usuarios').doc(req.params.id).get();
+    if (!doc.exists) return res.status(404).json({ error: 'Usuario no encontrado' });
+    
+    // Envía solo los datos que quieres que el QR contenga
+    const data = doc.data();
+    res.json({
+        id: doc.id,
+        nombre: data.nombre,
+        email: data.email,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/usuarios', async (req, res) => {
+  try {
+    const usuariosSnapshot = await db.collection('usuarios').get();
+    const usuarios = [];
+    usuariosSnapshot.forEach(doc => {
+      usuarios.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    res.json(usuarios);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.listen(3000, () => console.log('Server iniciado en el puerto 3000'))
