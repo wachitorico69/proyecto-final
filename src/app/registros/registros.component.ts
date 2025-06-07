@@ -9,8 +9,7 @@ import { AlturaPipe } from '../pipes/altura.pipe';
 
 @Component({
   selector: 'app-registros',
-  imports: [CommonModule, FormsModule, PesoPipe, AlturaPipe],
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, PesoPipe, AlturaPipe, RouterModule],
   templateUrl: './registros.component.html',
   styleUrl: './registros.component.css'
 })
