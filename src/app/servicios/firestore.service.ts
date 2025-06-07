@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
+export interface Inscripcion {
+  clase: string;
+  fecha: string;
+  horario: string;
+  nombre: string;
+  telefono: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +34,23 @@ export class FirestoreService {
   getClases(): Observable<any[]> {
     const ref = collection(this.firestore, 'clases');
     return collectionData(ref, { idField: 'id' });
+  }
+
+  getConteoPorClase(): Observable<{ clase: string, total: number }[]> {
+    const ref = collection(this.firestore, 'clases');
+    return collectionData(ref).pipe(
+      map((inscripciones: any[]) => {
+        const conteo: { [clase: string]: number } = {};
+        inscripciones.forEach(i => {
+          const clase = i.clase || 'Sin clase';
+          conteo[clase] = (conteo[clase] || 0) + 1;
+        });
+        return Object.keys(conteo).map(clase => ({
+          clase,
+          total: conteo[clase]
+        }));
+      })
+    );
   }
 
   getPerfiles(): Observable<any[]> {
