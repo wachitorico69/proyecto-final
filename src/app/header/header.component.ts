@@ -10,6 +10,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { QrService, UsuarioData } from '../servicios/Qr.service';
+import { OcultarformsService } from '../servicios/ocultarforms.service';
 
 @Component({
   selector: 'app-header',
@@ -26,6 +27,7 @@ export class HeaderComponent {
   qrData = '';
   cargando = true;
   modalVisible = false;
+  logged = false;
   abrirModalQR() {
     this.cargando = true;
     this.modalVisible = true;
@@ -38,7 +40,7 @@ export class HeaderComponent {
   }
 
   constructor(private fb: FormBuilder, private adminService: AdminlogService, private router: Router, private barraService: BarraService, 
-    private firestore: Firestore, private qrService: QrService) {
+    private firestore: Firestore, private qrService: QrService, private ocultarService: OcultarformsService) {
     this.loginForm = this.fb.group({
       username: [''],
       password: ['']
@@ -125,6 +127,8 @@ export class HeaderComponent {
     this.userlog=null;
     this.loginForm.reset();
     this.loginError = false;
+    this.logged = false;
+    this.ocultarService.setBoolean(this.logged);
 
     Swal.fire({
       icon: 'info',
@@ -244,6 +248,8 @@ export class HeaderComponent {
             color: 'black'
           });
           this.userlog = result.value?.username ?? null;
+          this.logged = true;
+          this.ocultarService.setBoolean(this.logged);
         }
       });
       });

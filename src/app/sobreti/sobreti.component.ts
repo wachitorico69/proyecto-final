@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { FirestoreService } from '../servicios/firestore.service';
+import { OcultarformsService } from '../servicios/ocultarforms.service';
+import { Subscription } from 'rxjs';
 
   interface perfilForm {
     nombre: string;
@@ -42,6 +44,8 @@ import { FirestoreService } from '../servicios/firestore.service';
     styleUrl: './sobreti.component.css'
   })
   export class SobretiComponent {
+    logged = false;
+    private subscription!: Subscription;
     //TEMPLATE
     perfil: perfilForm = {
       nombre: "",
@@ -94,9 +98,23 @@ import { FirestoreService } from '../servicios/firestore.service';
       { id: 'hiit', nombre: 'HIIT' }
     ];
 
-    constructor(private formBuilder: FormBuilder, private firestoreService: FirestoreService) {}
+    constructor(private formBuilder: FormBuilder, private firestoreService: FirestoreService, private ocultarService: OcultarformsService) {}
 
     ngOnInit() {
+      this.subscription = this.ocultarService.boolean$.subscribe(value => {
+        this.logged = value;
+      });
+      
+      if(!this.logged) {
+        Swal.fire({
+        title: 'Inicia sesión para acceder a este contenido',
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: 'black',
+        color: 'black',
+        iconColor: 'black'
+      })
+      }
       this.claseForm = this.formBuilder.group({
         nombre: ["", [Validators.required, Validators.minLength(5)]],
         telefono: ["", [Validators.required, Validators.minLength(10)]],
@@ -159,7 +177,11 @@ import { FirestoreService } from '../servicios/firestore.service';
       });
       this.claseForm.get('horario')?.disable();
     }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
+}
 
 
 
