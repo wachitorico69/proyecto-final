@@ -3,10 +3,12 @@ import { LocalSService } from '../shared/local-s.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../servicios/firestore.service';
+import { PesoPipe } from '../pipes/peso.pipe';
+import { AlturaPipe } from '../pipes/altura.pipe';
 
 @Component({
   selector: 'app-registros',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PesoPipe, AlturaPipe],
   templateUrl: './registros.component.html',
   styleUrl: './registros.component.css'
 })
