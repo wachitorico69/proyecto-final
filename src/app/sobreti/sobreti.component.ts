@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import { FirestoreService } from '../servicios/firestore.service';
 import { OcultarformsService } from '../servicios/ocultarforms.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
   interface perfilForm {
     nombre: string;
@@ -98,7 +99,8 @@ import { Subscription } from 'rxjs';
       { id: 'hiit', nombre: 'HIIT' }
     ];
 
-    constructor(private formBuilder: FormBuilder, private firestoreService: FirestoreService, private ocultarService: OcultarformsService) {}
+    constructor(private formBuilder: FormBuilder, private firestoreService: FirestoreService, 
+      private ocultarService: OcultarformsService, private router: Router) {}
 
     ngOnInit() {
       this.subscription = this.ocultarService.boolean$.subscribe(value => {
@@ -113,6 +115,8 @@ import { Subscription } from 'rxjs';
         confirmButtonColor: 'black',
         color: 'black',
         iconColor: 'black'
+      }).then(() => {
+        this.router.navigate(['/home']);
       })
       }
       this.claseForm = this.formBuilder.group({
