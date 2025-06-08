@@ -68,6 +68,25 @@ export class HeaderComponent {
       return false; // no encontrado
     }
   }
+  async validarAdmin(username: string, password: string): Promise<boolean> {
+    const adminsRef = collection(this.firestore, 'admins');
+    const q = query(adminsRef, where('nombre', '==', username), where('password', '==', password));
+    const querySnapshot = await getDocs(q);
+    
+    if (!querySnapshot.empty) {
+      // Obtén el primer documento (suponiendo que hay solo uno)
+      const adminEncontrado = querySnapshot.docs[0];
+      const adminData = adminEncontrado.data();
+
+      // Guarda el ID del documento en localStorage
+      localStorage.setItem('uid', adminEncontrado.id);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   generarQR() {
     const id = localStorage.getItem('uid');
     if (id) {
@@ -183,32 +202,34 @@ export class HeaderComponent {
 
               return { username, password };
             }
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.isConfirmed) {
               const { username, password } = result.value!;
-              const user = this.adminService.obtenerU(username, password);
 
-              if (user) {
-                this.userlog = user.nombre;
+              const valid = await this.validarAdmin(username, password);
+    
+              if (valid) {
+                this.userlog = username;
                 this.administrador = true;
+
                 Swal.fire({
                   title: '¡Bienvenido!',
-                  text: `Hola ${user.nombre}`,
+                  text: `Hola ${username}`,
                   icon: 'success',
                   confirmButtonColor: 'black',
                   color: 'black'
                 });
-              } else {
-                Swal.fire({
-                  title: 'Datos incorrectos',
-                  icon: 'error',
-                  confirmButtonColor: 'black',
-                  color: 'black'
-                });
-              }
+            } else {
+              Swal.fire({
+              title: 'Datos incorrectos',
+              icon: 'error',
+              confirmButtonColor: 'black',
+              color: 'black'
+              });
             }
-          });
+          }
         });
+      });
 
        userBtn?.addEventListener('click', () => {
         Swal.fire({
