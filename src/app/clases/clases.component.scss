@@ -80,3 +80,22 @@ button {
   min-height: 20px;
   margin-bottom: 5px;
 }
+
+//responsive
+@media (max-width: 576px) {
+    #buscoClase {
+        width: 90%;
+    }
+    .jumbotron2 {
+        width: 90%;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .jumbotron2 {
+        width: 70%;
+    }
+    #buscoClase {
+        width: 70%;
+    }
+}

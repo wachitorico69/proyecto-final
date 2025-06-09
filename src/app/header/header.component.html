@@ -11,11 +11,11 @@
 
   <div style="display: flex; align-items: center; gap: 1rem;">
     @if(administrador){
-      <span>{{userlog}}</span>
+      <span class="name">{{userlog}}</span>
       <a [routerLink]="['/registros']" class="btn">Ver Registros</a>
     }
     @if(usuario){
-      <span>{{userlog}}</span>
+      <span class="name">{{userlog}}</span>
       <a (click)="abrirModalQR()" class="btn">Generar QR</a>
     }
     <button (click)="mostrarLog()" class="btn">{{userlog ? 'Logout' : 'Login'}}</button>

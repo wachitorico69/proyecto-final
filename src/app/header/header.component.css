@@ -95,3 +95,29 @@ form {
   font-weight: bold;
   cursor: pointer;
 }
+
+@media (max-width: 576px) {
+    .button {
+        margin-right: 1px;
+    }
+    .btn {
+        max-width: 60px;
+        max-height: 50px;
+        font-size: 12px;
+        margin-right: 1px;
+    }
+    p {
+        font-size: 10px;
+    }
+    img {
+        width: 32px;
+        height: 32px;
+        margin-left: 1px;
+    }
+    .acc {
+        margin-left: 1px;
+    }
+    .name {
+        font-size: 15px;
+    }
+}
