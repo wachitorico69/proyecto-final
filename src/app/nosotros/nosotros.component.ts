@@ -13,7 +13,7 @@ import { NgStyle } from '@angular/common';
 })
 export class NosotrosComponent {
   image: string = 'assets/screamer.webp';
-  imagen: string = 'assets/img3.jpg';
+  imagen: string = '';
   personaSeleccionada: { nombre: string, descripcion: string, foto: string } | null = null;
   showBar = false;
   private sub!: Subscription;

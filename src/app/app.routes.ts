@@ -10,7 +10,7 @@ import { GraficaComponent } from './grafica/grafica.component';
 export const routes: Routes = [
     { path: '', component: HomeComponent},
     { path: 'home', component: HomeComponent },
-    { path: 'nosotros', component: NosotrosComponent },
+    { path: 'nosotros/:image', component: NosotrosComponent },
     { path: 'clases', component: ClasesComponent },
     { path: 'sobreti', component: SobretiComponent },
     { path: 'registros', component: RegistrosComponent },

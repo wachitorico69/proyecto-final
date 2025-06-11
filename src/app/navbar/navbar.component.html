@@ -11,7 +11,7 @@
         <a class="nav-link" [routerLink]="['/sobreti']">Sobre Ti</a>
       </li>
     <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/nosotros']">Nosotros</a>
+        <a class="nav-link" [routerLink]="['/nosotros']" (click)="irANosotrosConImagen2()">Nosotros</a>
     </li>
     @if (logged) {
     } @else {
