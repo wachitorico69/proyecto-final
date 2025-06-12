@@ -1,7 +1,7 @@
 
 .descripcion {
     font-size: larger;
-    text-align: justify;
+    text-align: center;
     padding-left: 90px;
     padding-right: 90px;
     padding-top: 30px;
@@ -42,6 +42,36 @@
     margin-bottom: 20px;
 }
 
+.imagenes{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
 .barra button:hover {
     background-color: rgb(202, 205, 204);
+}
+
+@media (max-width: 576px) {
+    .img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+    .contenido {
+        grid-template-columns: auto;
+    }
+    .foto {
+        max-width: 350px;
+    }
+    .descripcion {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 }

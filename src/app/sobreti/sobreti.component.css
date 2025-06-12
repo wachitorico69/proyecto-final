@@ -58,3 +58,21 @@ h5 {
   font-weight: bold;
   font-size: 1.2rem;
 }
+
+@media (max-width: 576px) {
+    .container {
+        width: 100%;
+    }
+    .container2 {
+        width: 100%;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+    .container2 {
+        width: 80%;
+    }
+}

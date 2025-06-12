@@ -29,4 +29,9 @@ export class NavbarComponent {
     this.subscription.unsubscribe();
   }
 
+  irANosotrosConImagen2() {
+    const imagen2 = 'assets/img2.jpg';
+    this.router.navigate(['/nosotros', encodeURIComponent(imagen2)]);
+  }
+
 }

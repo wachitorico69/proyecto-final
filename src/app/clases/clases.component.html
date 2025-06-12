@@ -18,7 +18,7 @@
   } @else {
     <div class="row g-4">
     @for (l of clasesFiltradas(); track l;) {
-      <div class="col-4">
+      <div class="col-6 col-md-4">
         <div class="card h-100 book-card">
           <img [src] = "l.image" class="card-img-top" alt="..."/>
           <div class="card-body" [ngClass]="l.id % 2 !== 0 ? 'oscuro' : 'claro'">

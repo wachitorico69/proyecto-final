@@ -112,7 +112,7 @@ export class HeaderComponent {
   }
 
   private checkRoute(url: string) {
-    this.enNosotros = url === '/nosotros';
+    this.enNosotros = url === '/nosotros/assets%252Fimg2.jpg';
   }
 
   //mostrar la barra

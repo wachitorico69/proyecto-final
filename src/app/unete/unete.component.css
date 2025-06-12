@@ -34,3 +34,15 @@
 .raw2 {
     margin-bottom: 20px;
 }
+
+@media (max-width: 576px) {
+    .container {
+        width: 100%;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+}

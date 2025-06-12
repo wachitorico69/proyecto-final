@@ -10,3 +10,13 @@
 .persona:hover {
   background-color: #f0f0f0; 
 }
+
+@media (max-width: 576px) {
+
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .persona {
+    height: 130px;
+  }
+}
