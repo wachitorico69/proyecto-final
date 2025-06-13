@@ -46,3 +46,25 @@
         width: 80%;
     }
 }
+
+.google-login-container {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.google-btn {
+    background-color: #db4437;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+}
+
+.google-btn:hover {
+    background-color: #c1351d;
+}

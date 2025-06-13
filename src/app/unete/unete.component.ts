@@ -42,33 +42,33 @@ export class UneteComponent {
     this.token = undefined;
   }
   login() {
-  this.authService.loginWithGoogle().then(result => {
-    const user = result.user;
-    const datosUsuario = {
-      nombre: user.displayName ?? 'Sin nombre',
-      correo: user.email ?? 'Sin correo'
-    };
+    this.authService.loginWithGoogle().then(result => {
+      const user = result.user;
+      const datosUsuario = {
+        nombre: user.displayName ?? 'Sin nombre',
+        correo: user.email ?? 'Sin correo'
+      };
 
-    this.firestoreService.guardarUsuario(datosUsuario)
-      .then(() => {
-        console.log('Usuario con Google guardado en Firestore');
-        Swal.fire({
-          title: '¡Bienvenido con Google!',
-          text: `Hola ${user.displayName}`,
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: 'black',
-          color: 'black',
-          iconColor: 'black'
+      this.firestoreService.guardarUsuario(datosUsuario)
+        .then(() => {
+          console.log('Usuario con Google guardado en Firestore');
+          Swal.fire({
+            title: '¡Bienvenido con Google!',
+            text: `Hola ${user.displayName}`,
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: 'black',
+            color: 'black',
+            iconColor: 'black'
+          });
+        })
+        .catch(error => {
+          console.error('Error al guardar el usuario en Firestore:', error);
         });
-      })
-      .catch(error => {
-        console.error('Error al guardar el usuario en Firestore:', error);
-      });
-  }).catch(err => {
-    console.error('Error en login con Google:', err);
-  });
-}
+    }).catch(err => {
+      console.error('Error en login con Google:', err);
+    });
+  }
 
   //Validar correo
   public emailValidator(control: FormControl): { [key: string]: boolean } | null {
