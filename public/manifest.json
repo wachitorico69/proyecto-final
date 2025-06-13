@@ -1,0 +1,17 @@
+{
+    "short_name": "GG",
+    "name": "Gorilla Gym",
+    "icons": [
+        {
+            "src": "gorila2.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F5F5F8",
+    "theme_color": "#F5F5F8",
+    "orientation": "portrait",
+    "categories": ["fitness", "business"]
+}
