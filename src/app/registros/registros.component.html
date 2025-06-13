@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="text-center mb-3">
+    <a [routerLink]="['/grafica']" class="btn btn-primary">Ver gráfica de clases</a>
+  </div>
+
+  <h2>Clases</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Clase</th>
+        <th>Fecha</th>
+        <th>Horario</th>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for (clase of clases; let i = $index; track clase.id) {
+      <tr>
+        <td>
+          @if (editIndexC === i) {
+            <input [(ngModel)]="clase.clase" class="form-control" />
+          } @else {
+            {{ clase.clase }}
+          }
+        </td>
+        <td>
+          @if (editIndexC === i) {
+            <input [(ngModel)]="clase.fecha" class="form-control" />
+          } @else {
+            {{ clase.fecha | date:"dd/MM/yyyy" }}
+          }
+        </td>
+        <td>
+          @if (editIndexC === i) {
+            <input [(ngModel)]="clase.horario" class="form-control" />
+          } @else {
+            {{ clase.horario }}
+          }
+        </td>
+        <td>
+          @if (editIndexC === i) {
+            <input [(ngModel)]="clase.nombre" class="form-control" />
+          } @else {
+            {{ clase.nombre }}
+          }
+        </td>
+        <td>
+          @if (editIndexC === i) {
+            <input [(ngModel)]="clase.telefono" class="form-control" />
+          } @else {
+            {{ clase.telefono }}
+          }
+        </td>
+        <td>
+          @if (editIndexC !== i) {
+            <button (click)="startEditingClass(i)" class="btn btn-dark">Editar</button>
+          } @else {
+            <button (click)="saveClass()" class="btn btn-success">Guardar</button>
+          }
+          <button (click)="deleteClass(i)" class="btn btn-dark">Borrar</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="6">No hay clases registradas.</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+
+  <h2>Perfiles</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Edad</th>
+        <th>Peso</th>
+        <th>Altura</th>
+        <th>Sexo</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for (perfil of perfiles; let i = $index; track perfil.id) {
+      <tr>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.nombre" class="form-control" />
+          } @else {
+            {{ perfil.nombre }}
+          }
+        </td>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.edad" class="form-control" />
+          } @else {
+            {{ perfil.edad }}
+          }
+        </td>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.peso" class="form-control" />
+          } @else {
+            {{ perfil.peso | peso }}
+          }
+        </td>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.altura" class="form-control" />
+          } @else {
+            {{ perfil.altura | altura }}
+          }
+        </td>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.sexo" class="form-control" />
+          } @else {
+            {{ perfil.sexo }}
+          }
+        </td>
+        <td>
+          @if (editIndexP === i) {
+            <input [(ngModel)]="perfil.email" class="form-control" />
+          } @else {
+            {{ perfil.email }}
+          }
+        </td>
+        <td>
+          @if (editIndexP !== i) {
+            <button (click)="startEditingProfile(i)" class="btn btn-dark">Editar</button>
+          } @else {
+            <button (click)="saveProfile()" class="btn btn-success">Guardar</button>
+          }
+          <button (click)="deleteProfile(i)" class="btn btn-dark">Borrar</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr>
+        <td colspan="7">No hay perfiles registrados.</td>
+      </tr>
+    }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,22 @@
+.persona {
+  border: 1px solid black;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  box-shadow: 7px 7px black;
+  height: 85px;
+}
+.persona:hover {
+  background-color: #f0f0f0; 
+}
+
+@media (max-width: 576px) {
+
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .persona {
+    height: 130px;
+  }
+}

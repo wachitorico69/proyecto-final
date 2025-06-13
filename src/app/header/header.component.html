@@ -1,0 +1,38 @@
+<header class="d-flex align-items-center justify-content-between p-1 text-black" style="background-color: #ffffff;" data-bs-theme="light">
+  <div class="d-flex align-items-center">
+    <img src="gorila2.png" alt="Logo" class="logo me-2" />
+    <p class="m-0">Gorilla GYM</p>
+    @if (enNosotros) {
+      <div>
+        <button class="acc" (click)="mostrarBarra()"><img src="assets/acc.png"></button>
+      </div>
+    }
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    @if(administrador){
+      <span class="name">{{userlog}}</span>
+      <a [routerLink]="['/registros']" class="btn">Ver Registros</a>
+    }
+    @if(usuario){
+      <span class="name">{{userlog}}</span>
+      <a (click)="abrirModalQR()" class="btn">Generar QR</a>
+    }
+    <button (click)="mostrarLog()" class="btn">{{userlog ? 'Logout' : 'Login'}}</button>
+  </div>
+</header>
+
+<div class="modal" [class.show]="modalVisible" (click)="cerrarModalQR($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close" (click)="cerrarModalQR($event)">&times;</span>
+    
+    <h2>Tu Código QR</h2>
+    
+    @if(cargando){
+      Cargando...
+    }
+    @if(!cargando){
+      <qrcode [qrdata]="qrData" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+    }
+  </div>
+</div>

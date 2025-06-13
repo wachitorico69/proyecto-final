@@ -1,0 +1,70 @@
+<div class="jumbotron">
+    <h1 class="display-4">Conoce las clases que tenemos en Gorilla Gym</h1>
+    <p class="lead">Encuentra información acerca de las clases que tenemos en nuestro gimnasio y no dudes en ser parte de alguna de ellas.</p>
+    <hr class="my-4">
+    <p>Si estás interesado en formar parte de alguna clase, puedes registrarte aquí:</p>
+    <a class="btn btn-outline-light btn-lg" [routerLink]="['/sobreti']" role="button">Ver más</a>
+</div>
+
+<div id="buscoClase" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" placeholder="¿Qué estas buscando?" [(ngModel)]="filtroTexto">
+</div>
+
+<div class="container py-5">
+  @if (!cargado) {
+    <div class="spin">
+    <mat-spinner class="custom-spinner"></mat-spinner>
+    </div>
+  } @else {
+    <div class="row g-4">
+    @for (l of clasesFiltradas(); track l;) {
+      <div class="col-6 col-md-4">
+        <div class="card h-100 book-card">
+          <img [src] = "l.image" class="card-img-top" alt="..."/>
+          <div class="card-body" [ngClass]="l.id % 2 !== 0 ? 'oscuro' : 'claro'">
+            <h6 class="card-title"> {{ l.nombre }} </h6>
+            <p class="card-text"> {{ l.descripcion }} </p>
+          </div>
+        </div>
+      </div>
+    }
+    
+    @if (clasesFiltradas().length === 0 && cargado && !runOut) {
+        <p>No se encontraron resultados</p>
+    } 
+
+    @if (runOut) {
+        <p class="text-center">Intenta en otro momento</p>
+        <div class="spin">
+          <mat-spinner class="custom-spinner"></mat-spinner>
+        </div> 
+    }
+    </div>
+  }
+</div>
+
+<div class="jumbotron2">
+    <h1 class="display-4">Gorilla Gym Curso Online</h1>
+    <p class="lead">$500.00 MXN</p>
+    <hr class="my-4">
+    <p>Si prefieres hacer ejercicio desde tu hogar, no dudes en tomar nuestro curso en línea, donde nuestros entrenadores podrán enseñarte las lecciones de tu preferencia:</p>
+    <form [formGroup]="pagoForm" (ngSubmit)="submit()">
+      <input class="form-control mr-sm-2" formControlName="correo" placeholder="Introduce tu correo electrónico"/>
+      <div class="error-container">
+         @if (pagoForm.get('correo')?.touched && pagoForm.get('correo')?.invalid) {
+            @if (pagoForm.get('correo')?.errors?.['required']) {
+              <p class="error">Introduce un correo electrónico</p>
+            }
+            @if (pagoForm.get('correo')?.errors?.['invalidEmail']) {
+              <p class="error">Introduce un correo electrónico válido</p>
+            }
+          }
+      </div>
+      <button type="submit" class="btn btn-outline-light btn-lg" [disabled]="isSubmitting()">Paga con <i class="fa-brands fa-paypal"></i></button>
+    </form>
+        @if (pagoCargo) {
+        <div class="spin">
+          <mat-spinner class="custom-spinner2"></mat-spinner>
+        </div> 
+    }
+</div>
