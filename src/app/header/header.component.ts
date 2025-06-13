@@ -152,10 +152,23 @@ export class HeaderComponent {
   }
 
   mostrarLog() {
-    if (this.userlog) {
-      this.logout();
-      this.administrador = false;
-      this.usuario = false;
+    if (this.logged) {
+      Swal.fire({
+        title: 'Sesión activa',
+        text: `Hola ${this.userlog}`,
+        showCancelButton: true,
+        confirmButtonText: 'Cerrar sesión',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: 'black',
+        cancelButtonColor: 'gray',
+        color: 'black'
+      }).then((res) => {
+        if (res.isConfirmed) {
+          this.logout();
+          this.administrador = false;
+          this.usuario = false;
+        }
+      });
     } else {
       Swal.fire({
         title: 'Iniciar como:',
@@ -167,20 +180,13 @@ export class HeaderComponent {
         showCancelButton: false,
         color: 'black',
         didOpen: () => {
-          const adminBtn = document.getElementById('admin-btn');
-          const userBtn = document.getElementById('user-btn');
-
-          adminBtn?.addEventListener('click', () => {
-            this.mostrarFormulario('admin');
-          });
-
-          userBtn?.addEventListener('click', () => {
-            this.mostrarFormulario('user');
-          });
+          document.getElementById('admin-btn')?.addEventListener('click', () => this.mostrarFormulario('admin'));
+          document.getElementById('user-btn')?.addEventListener('click', () => this.mostrarFormulario('user'));
         }
       });
     }
   }
+
 
   mostrarFormulario(tipo: 'admin' | 'user') {
     Swal.fire({
@@ -189,6 +195,7 @@ export class HeaderComponent {
         <input type="text" id="username" class="swal2-input" placeholder="Usuario">
         <input type="password" id="password" class="swal2-input" placeholder="Contraseña">
         <div id="error-msg" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
+        ${tipo === 'user' ? '<button id="google-btn" class="swal2-confirm swal2-styled" style="background-color: #4285F4; margin-top: 10px;">Iniciar sesión con Google</button>' : ''}
       `,
       showCancelButton: true,
       cancelButtonText: 'Regresar',
@@ -197,6 +204,45 @@ export class HeaderComponent {
       cancelButtonColor: 'gray',
       focusConfirm: false,
       color: 'black',
+      didOpen: () => {
+        if (tipo === 'user') {
+          const googleBtn = document.getElementById('google-btn');
+          if (googleBtn) {
+            googleBtn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              try {
+                const cred = await this.authService.loginWithGoogle();
+                const user = cred.user;
+
+                await this.authService.guardarDatosUsuarioGoogle(user);
+                Swal.close();
+
+                this.usuario = true;
+                this.logged = true;
+                this.userlog = user.displayName || user.email || 'Usuario';
+                this.ocultarService.setBoolean(this.logged);
+
+                Swal.fire({
+                  title: '¡Bienvenido!',
+                  text: `Hola ${this.userlog}`,
+                  icon: 'success',
+                  confirmButtonColor: 'black',
+                  color: 'black'
+                });
+              } catch (error) {
+                console.error('Error en login con Google', error);
+                Swal.fire({
+                  title: 'Error',
+                  text: 'Ocurrió un error al iniciar sesión con Google.',
+                  icon: 'error',
+                  confirmButtonColor: 'black',
+                  color: 'black'
+                });
+              }
+            });
+          }
+        }
+      },
       preConfirm: async () => {
         const swalContainer = Swal.getPopup();
         const usernameInput = swalContainer?.querySelector('#username') as HTMLInputElement;
@@ -228,20 +274,20 @@ export class HeaderComponent {
           if (nuevosIntentos >= 3) {
             await this.authService.bloquearCuenta(tipo, datos.id);
             if (errorMsg) errorMsg.innerText = 'Cuenta bloqueada por demasiados intentos';
-              Swal.fire({
-                title: '¿Olvidaste tu contraseña?',
-                text: '¿Quieres restablecer tu contraseña mediante correo?',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, enviar enlace',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: 'black',
-                cancelButtonColor: 'gray',
-                color: 'black'
-              }).then((res) => {
-                if (res.isConfirmed) {
-                  this.mostrarRecuperarCuenta();
-                }
-              });
+            Swal.fire({
+              title: '¿Olvidaste tu contraseña?',
+              text: '¿Quieres restablecer tu contraseña mediante correo?',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, enviar enlace',
+              cancelButtonText: 'Cancelar',
+              confirmButtonColor: 'black',
+              cancelButtonColor: 'gray',
+              color: 'black'
+            }).then((res) => {
+              if (res.isConfirmed) {
+                this.mostrarRecuperarCuenta();
+              }
+            });
           } else {
             await this.authService.actualizarIntentosFallidos(tipo, datos.id, nuevosIntentos);
             if (errorMsg) errorMsg.innerText = `Credenciales incorrectas. Intentos restantes: ${3 - nuevosIntentos}`;
@@ -250,7 +296,6 @@ export class HeaderComponent {
         }
 
         await this.authService.actualizarIntentosFallidos(tipo, datos.id, 0);
-
         return { username, password };
       }
     }).then((result) => {
@@ -287,7 +332,6 @@ export class HeaderComponent {
           color: 'black'
         });
       }
-
     });
   }
 

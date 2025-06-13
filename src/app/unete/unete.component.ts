@@ -70,10 +70,6 @@ export class UneteComponent {
   });
 }
 
-
-  logout(){
-    this.authService.logout().catch(err => console.error(err));
-  }
   //Validar correo
   public emailValidator(control: FormControl): { [key: string]: boolean } | null {
     const emailRegexp: RegExp = /[@]/;

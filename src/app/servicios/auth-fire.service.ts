@@ -78,4 +78,19 @@ export class AuthFireService {
       bloq: false
     });
   }
+
+  async guardarDatosUsuarioGoogle(user: User): Promise<void> {
+    const docRef = doc(this.firestore, 'usuarios', user.uid);
+    const snap = await getDoc(docRef);
+
+    if (!snap.exists()) {
+      await setDoc(docRef, {
+        nombre: user.displayName || 'Sin nombre',
+        correo: user.email || '',
+        password: '', // sin contraseña
+        intentos: 0,
+        bloq: false
+      });
+    }
+  }
 }
