@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, updateDoc, getDoc } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 
 export interface Inscripcion {
@@ -16,7 +16,7 @@ export interface Inscripcion {
 export class FirestoreService {
   constructor(private firestore: Firestore) {}
 
-  guardarUsuario(usuario: { nombre: string; correo: string, password: string }) {
+  guardarUsuario(usuario: { nombre: string; correo: string, password?: string }) {
     const usuariosRef = collection(this.firestore, 'usuarios');
     return addDoc(usuariosRef, usuario);
   }
