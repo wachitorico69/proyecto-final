@@ -195,7 +195,10 @@ export class HeaderComponent {
         <input type="text" id="username" class="swal2-input" placeholder="Usuario">
         <input type="password" id="password" class="swal2-input" placeholder="Contraseña">
         <div id="error-msg" style="color: red; font-size: 0.9em; margin-top: 5px;"></div>
-        ${tipo === 'user' ? '<button id="google-btn" class="swal2-confirm swal2-styled" style="background-color: #4285F4; margin-top: 10px;">Iniciar sesión con Google</button>' : ''}
+        ${tipo === 'user' ? `
+            <button id="google-btn" class="swal2-confirm swal2-styled" style="background-color: #4285F4; margin-top: 10px;">Iniciar sesión con Google</button>
+            <button id="phone-btn" class="swal2-confirm swal2-styled" style="background-color: #34A853; margin-top: 10px;">Iniciar sesión con teléfono</button>
+        ` : ''}
       `,
       showCancelButton: true,
       cancelButtonText: 'Regresar',
@@ -206,6 +209,17 @@ export class HeaderComponent {
       color: 'black',
       didOpen: () => {
         if (tipo === 'user') {
+          const phoneBtn = document.getElementById('phone-btn');
+          if (phoneBtn) {
+            phoneBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              Swal.close();
+              setTimeout(() => {
+                this.mostrarFormularioTelefono();
+              }, 0);
+            });
+          } 
+
           const googleBtn = document.getElementById('google-btn');
           if (googleBtn) {
             googleBtn.addEventListener('click', async (e) => {
@@ -375,6 +389,84 @@ export class HeaderComponent {
           icon: 'success',
           confirmButtonColor: 'black'
         });
+      }
+    });
+  }
+
+  mostrarFormularioTelefono() {
+    Swal.fire({
+      title: 'Iniciar sesión con teléfono',
+      html: `
+        <input type="text" id="phone-number" class="swal2-input" placeholder="Ej: +521234567890">
+        <div id="recaptcha-container"></div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Enviar código',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: 'black',
+      cancelButtonColor: 'gray',
+      color: 'black',
+      didOpen: async () => {
+        await this.authService.configurarRecaptcha();
+      },
+      preConfirm: async () => {
+        const phoneInput = document.getElementById('phone-number') as HTMLInputElement;
+        const phone = phoneInput.value.trim();
+        if (!phone) return false;
+        try {
+          await this.authService.enviarCodigoTelefono(phone);
+          return phone;
+        } catch (err) {
+          console.error('Error enviando código:', err);
+          Swal.showValidationMessage('Número no registrado');
+          return false;
+        }
+      }
+    }).then((res) => {
+      if (res.isConfirmed && res.value) {
+        this.mostrarFormularioCodigo();
+      }
+    });
+  }
+
+  mostrarFormularioCodigo() {
+    Swal.fire({
+      title: 'Verifica el código',
+      html: `<input type="text" id="code" class="swal2-input" placeholder="Código recibido">`,
+      showCancelButton: true,
+      confirmButtonText: 'Verificar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: 'black',
+      cancelButtonColor: 'gray',
+      color: 'black',
+      preConfirm: async () => {
+        const codeInput = document.getElementById('code') as HTMLInputElement;
+        const code = codeInput?.value?.trim();
+
+        if (!code) {
+          Swal.showValidationMessage('Ingresa el código recibido');
+          return false;
+        }
+
+        try {
+          const cred = await this.authService.verificarCodigo(code);
+          this.usuario = true;
+          this.logged = true;
+          this.userlog = cred.user.phoneNumber;
+          this.ocultarService.setBoolean(true);
+          Swal.fire({
+            title: '¡Bienvenido!',
+            text: `Hola ${this.userlog}`,
+            icon: 'success',
+            confirmButtonColor: 'black',
+            color: 'black'
+          });
+          return true;
+        } catch (err) {
+          console.error('Error verificando código:', err);
+          Swal.showValidationMessage('Código incorrecto');
+          return false;
+        }
       }
     });
   }

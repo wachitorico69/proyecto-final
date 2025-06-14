@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Auth, signInWithPopup, GoogleAuthProvider, User, createUserWithEmailAndPassword  } from '@angular/fire/auth';
-import { signOut, sendPasswordResetEmail } from 'firebase/auth';
+import { signOut, sendPasswordResetEmail, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { BehaviorSubject } from 'rxjs';
 import { Firestore, collection, doc, getDoc, setDoc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { docData } from 'rxfire/firestore';
@@ -11,6 +11,8 @@ import { docData } from 'rxfire/firestore';
 export class AuthFireService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$ = this.userSubject.asObservable();
+  recaptchaVerifier: any;
+  confirmationResult: any;
 
   constructor(private auth: Auth, private firestore: Firestore){
     this.auth.onAuthStateChanged(user => this.userSubject.next(user));
@@ -92,5 +94,23 @@ export class AuthFireService {
         bloq: false
       });
     }
+  }
+
+  configurarRecaptcha() {
+    this.recaptchaVerifier = new RecaptchaVerifier(this.auth, 'recaptcha-container', {
+      size: 'invisible',
+      callback: () => console.log('reCAPTCHA resuelto'),
+    });
+    return this.recaptchaVerifier.render(); 
+  }
+
+  enviarCodigoTelefono(phone: string) {
+    return signInWithPhoneNumber(this.auth, phone, this.recaptchaVerifier).then((result) => {
+      this.confirmationResult = result;
+    });
+  }
+
+  verificarCodigo(code: string) {
+    return this.confirmationResult.confirm(code);
   }
 }
