@@ -139,6 +139,7 @@ export class HeaderComponent {
     this.loginForm.reset();
     this.loginError = false;
     this.logged = false;
+    this.administrador = false;
     this.ocultarService.setBoolean(this.logged);
 
     Swal.fire({
@@ -152,7 +153,7 @@ export class HeaderComponent {
   }
 
   mostrarLog() {
-    if (this.logged) {
+    if (this.logged || this.administrador) {
       Swal.fire({
         title: 'Sesión activa',
         text: `Hola ${this.userlog}`,
@@ -164,9 +165,9 @@ export class HeaderComponent {
         color: 'black'
       }).then((res) => {
         if (res.isConfirmed) {
-          this.logout();
           this.administrador = false;
           this.usuario = false;
+          this.logout();
         }
       });
     } else {
