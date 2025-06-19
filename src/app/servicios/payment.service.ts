@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class PaymentService {
-  private backendUrl = 'http://localhost:3000';
+  private backendUrl = 'https://proyecto-final-node-y03d.onrender.com';
 
   constructor(private http: HttpClient) {}
 
