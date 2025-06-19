@@ -6,7 +6,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: 'https://gorillas-gym.web.app/' }));
 
 // Inicializa Firebase Admin con tu archivo de credenciales --QR
 admin.initializeApp({
@@ -20,5 +20,5 @@ app.use('/', require('./routes/paypal'));
 app.use('/api', require('./routes/usuarios'));
 
 // Levantar servidor
-const PORT = 3000;
+const PORT = 10000;
 app.listen(PORT, () => console.log(`Server iniciado en el puerto ${PORT}`));

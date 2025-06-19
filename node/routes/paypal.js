@@ -39,7 +39,7 @@ router.get('/complete-order', async (req, res) => {
     await paypal.capturePayment(orderId);
     await transporter.sendMail(mailOptions);
     console.log(`Correo enviado a ${correoCompra}`);
-    res.redirect('http://localhost:4200/home');
+    res.redirect('https://gorillas-gym.web.app/home');
   } catch (error) {
     console.error(error.response?.data || error);
     res.send('Error ' + error);
@@ -47,7 +47,7 @@ router.get('/complete-order', async (req, res) => {
 });
 
 router.get('/cancel-order', (req, res) => {
-  res.redirect('http://localhost:4200/clases');
+  res.redirect('https://gorillas-gym.web.app/clases');
 });
 
 module.exports = router;

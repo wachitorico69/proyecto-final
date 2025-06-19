@@ -13,7 +13,7 @@ export interface UsuarioData {
 })
 export class QrService {
 
-  private apiUrl = 'http://localhost:3000/api/usuario'; 
+  private apiUrl = 'https://proyecto-final-node-y03d.onrender.com/api/usuario'; 
 
   constructor(private http: HttpClient) {}
 
