@@ -12,6 +12,7 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { QrService, UsuarioData } from '../servicios/Qr.service';
 import { OcultarformsService } from '../servicios/ocultarforms.service';
 import { AuthFireService } from '../servicios/auth-fire.service';
+import { getAuth } from 'firebase/auth';
 
 @Component({
   selector: 'app-header',
@@ -29,6 +30,7 @@ export class HeaderComponent {
   cargando = true;
   modalVisible = false;
   logged = false;
+  uidManual: string | null = null;
   abrirModalQR() {
     this.cargando = true;
     this.modalVisible = true;
@@ -48,55 +50,28 @@ export class HeaderComponent {
     });
   }
 
-  async validarUsuario(username: string, password: string): Promise<boolean> {
-    const usersRef = collection(this.firestore, 'usuarios');
-    const q = query(usersRef, where('nombre', '==', username), where('password', '==', password));
-    const querySnapshot = await getDocs(q);
-    
-    if (!querySnapshot.empty) {
-      // Obtén el primer documento (suponiendo que hay solo uno)
-      const usuarioEncontrado = querySnapshot.docs[0];
-      const usuarioData = usuarioEncontrado.data();
-
-      // Guarda el ID del documento en localStorage
-      localStorage.setItem('uid', usuarioEncontrado.id);
-
-      // Opcional: también puedes guardar otros datos si quieres
-      // localStorage.setItem('nombre', usuarioData.nombre);
-
-      return true;  // usuario encontrado y contraseña correcta
-    } else {
-      return false; // no encontrado
-    }
-  }
-  async validarAdmin(username: string, password: string): Promise<boolean> {
-    const adminsRef = collection(this.firestore, 'admins');
-    const q = query(adminsRef, where('nombre', '==', username), where('password', '==', password));
-    const querySnapshot = await getDocs(q);
-    
-    if (!querySnapshot.empty) {
-      // Obtén el primer documento (suponiendo que hay solo uno)
-      const adminEncontrado = querySnapshot.docs[0];
-      const adminData = adminEncontrado.data();
-
-      // Guarda el ID del documento en localStorage
-      localStorage.setItem('uid', adminEncontrado.id);
-
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   generarQR() {
-    const id = localStorage.getItem('uid');
-    if (id) {
-      this.qrService.getUsuarioPorId(id).subscribe(data => {
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    let uid = null;
+
+    if (this.uidManual) {
+      uid = this.uidManual;
+    } else if (currentUser) {
+      uid = currentUser.uid;
+    }
+
+    if (uid) {
+      this.qrService.getUsuarioPorId(uid).subscribe(data => {
         this.qrData = JSON.stringify(data);
         this.cargando = false;
       });
+    } else {
+      console.error('No se pudo obtener UID para generar el QR');
     }
   }
+
 
   //mostrar el boton de accesibilidad
   enNosotros = false;
@@ -122,24 +97,39 @@ export class HeaderComponent {
 
   login(): void {
     const { username, password } = this.loginForm.value;
-    const user = this.adminService.obtenerU(username, password);
-    if (user) {
-      this.userlog = user.nombre;
-      this.loginError = false;
-      this.logged = true;
-      this.ocultarService.setBoolean(true);
-    } else {
-      this.loginError = true;
-      this.loginForm.get('username')?.setErrors({ incorrecto: true });
-      this.loginForm.get('password')?.setErrors({ incorrecto: true });
-    }
+
+    const usersRef = collection(this.firestore, 'usuarios');
+    const q = query(usersRef, where('nombre', '==', username), where('password', '==', password));
+
+    getDocs(q).then(snapshot => {
+      if (!snapshot.empty) {
+        const docData = snapshot.docs[0];
+        const usuario = docData.data();
+
+        this.uidManual = docData.id; 
+        this.userlog = usuario['nombre'];
+        this.loginError = false;
+        this.logged = true;
+        this.ocultarService.setBoolean(true);
+
+        this.generarQR();
+
+      } else {
+        this.loginError = true;
+        this.loginForm.get('username')?.setErrors({ incorrecto: true });
+        this.loginForm.get('password')?.setErrors({ incorrecto: true });
+      }
+    });
   }
+
   logout(){
     this.userlog=null;
     this.loginForm.reset();
     this.loginError = false;
     this.logged = false;
     this.administrador = false;
+    this.uidManual = null;
+    this.qrData = '';
     this.ocultarService.setBoolean(this.logged);
 
     Swal.fire({
@@ -318,35 +308,49 @@ export class HeaderComponent {
         this.mostrarLog();
       }
 
-      if (result.isConfirmed && result.value) {
-        this.userlog = result.value.username;
+    if (result.isConfirmed && result.value) {
+      this.userlog = result.value.username;
 
-        if (tipo === 'admin') {
-          this.administrador = true;
-        } else {
-          this.usuario = true;
-          this.logged = true;
-          this.ocultarService.setBoolean(this.logged);
-        }
+      if (tipo === 'user') {
+        const usersRef = collection(this.firestore, 'usuarios');
+        const q = query(usersRef, where('nombre', '==', result.value.username));
+        getDocs(q).then(snapshot => {
+          if (!snapshot.empty) {
+            const docData = snapshot.docs[0];
+            this.uidManual = docData.id;
+            this.generarQR();
+          }
+        });
+      } else {
+        this.generarQR();
+      }
 
-        const uid = localStorage.getItem('uid');
-        if (uid) {
-          const ref = doc(this.firestore, tipo === 'admin' ? 'admins' : 'usuarios', uid);
-          updateDoc(ref, {
-            password: result.value.password,
-            intentos: 0,
-            bloq: false
-          });
-        }
+      if (tipo === 'admin') {
+        this.administrador = true;
+      } else {
+        this.usuario = true;
+        this.logged = true;
+        this.ocultarService.setBoolean(this.logged);
+      }
 
-        Swal.fire({
-          title: '¡Bienvenido!',
-          text: `Hola ${result.value.username}`,
-          icon: 'success',
-          confirmButtonColor: 'black',
-          color: 'black'
+      const uid = localStorage.getItem('uid');
+      if (uid) {
+        const ref = doc(this.firestore, tipo === 'admin' ? 'admins' : 'usuarios', uid);
+        updateDoc(ref, {
+          password: result.value.password,
+          intentos: 0,
+          bloq: false
         });
       }
+
+      Swal.fire({
+        title: '¡Bienvenido!',
+        text: `Hola ${result.value.username}`,
+        icon: 'success',
+        confirmButtonColor: 'black',
+        color: 'black'
+      });
+    }
     });
   }
 
