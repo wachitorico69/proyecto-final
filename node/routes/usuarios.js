@@ -14,7 +14,7 @@ router.get('/usuario/:id', async (req, res) => {
     res.json({
       id: doc.id,
       nombre: data.nombre,
-      email: data.email,
+      email: data.correo,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
